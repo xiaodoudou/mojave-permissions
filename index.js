@@ -1,4 +1,18 @@
-const bin = require('./build/Release/mojave-permissions')
+const currentOs = process.platform
+
+let bin
+if (currentOs === "darwin") {
+  bin = require('./build/Release/mojave-permissions')
+} else {
+  bin = {
+    askForMediaAccess: (mediaType, callback)=> {
+      return callback(true)
+    },
+    getMediaAccessStatus: (mediaType)=> {
+      return true
+    }
+  }
+}
 
 module.exports = {
   /**
